@@ -1,60 +1,99 @@
-version: "2.0"
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
-  session_expiration_time: 0.0
+  session_expiration_time: 0
   carry_over_slots_to_new_session: true
 intents:
-- sexual_assault
-- burglary
-- greet
-- goodbye
-- bot_challenge
-- password_reset
-- inform
-- thank
-- help
-- problem_email
+- sexual_assault:
+    use_entities: true
+- burglary:
+    use_entities: true
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- password_reset:
+    use_entities: true
+- inform:
+    use_entities: true
+- thank:
+    use_entities: true
+- help:
+    use_entities: true
+- problem_email:
+    use_entities: true
 - open_incident:
     use_entities: []
-- incident_status
-- out_of_scope
-- restart
-- affirm
-- deny
-- trigger_handoff
-- human_handoff
-- handoff
-
+- incident_status:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- restart:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- trigger_handoff:
+    use_entities: true
+- human_handoff:
+    use_entities: true
+- handoff:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
 entities:
 - email
 - priority
 - handoff_to
 slots:
   confirm:
-    type: bool
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   previous_email:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   caller_id:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   email:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   incident_title:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   priority:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   problem_description:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   requested_slot:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   handoff_to:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
 responses:
   utter_out_of_scope:
@@ -72,41 +111,45 @@ responses:
   utter_ask_problem_description:
   - text: What is the problem description for the issue?
   utter_ask_priority:
-  - text: What is the priority of this issue?
-    buttons:
-      - payload: /inform{"priority":"low"}
-        title: low
-      - payload: /inform{"priority":"medium"}
-        title: medium
-      - payload: /inform{"priority":"high"}
-        title: high
+  - buttons:
+    - payload: /inform{"priority":"low"}
+      title: low
+    - payload: /inform{"priority":"medium"}
+      title: medium
+    - payload: /inform{"priority":"high"}
+      title: high
+    text: What is the priority of this issue?
   utter_no_priority:
   - text: Sorry "{priority}" is not a valid priority. Please try again.
   utter_no_email:
   - text: Sorry, "{email}" isn't in our incident management system. Please try again.
   utter_sexual_assault_checklist:
-  - text: "If you have been a victim of sexual assault, you can follow the following instructions:
-      \n - Go to the nearest hospital
-      \n - Contact the police
-      "
+  - text: |-
+      Si vous avez été victime d'une agression sexuelle, nous vous recommandons de suivre les instructions suivantes :
+       - Pour se faire soigner et établir un certificat médical : contacter l'unité médico-judicaire au 03 87 56 22 07
+       - Contacter le centre d'Information sur les Droits des Femmes et des Familles (CIDFF) de Metz-Thionville au 03 87 76 03 48
+       - En cas de violences conjugales, Inform'elles est à votre écoute au 03 87 35 05 64
+       - Contacter les forces de l'ordre en appelant le 17
+       - Contacter violences info en appelant le 39 19
   utter_burglary_checklist:
-  - text: "Si vous pensez être victime d'un cambriolage :
-          \n - Ne touchez à rien sur les lieux
-          \n - Prévenez les forces de l'ordre et votre assurance
-          \n - Déposez plainte sans tarder, appeler le 112
-          \n - Contactez votre banque pour faire opposition
-          \n - Listez les objets volés et les dommages constatés
-          "
+  - text: |-
+      Si vous pensez être victime d'un cambriolage : 
+       - Ne touchez à rien sur les lieux 
+       - Prévenez les forces de l'ordre et votre assurance 
+       - Déposez plainte sans tarder, appeler le 112 
+       - Contactez votre banque pour faire opposition 
+       - Listez les objets volés et les dommages constatés 
   utter_call_help:
-  - text: "Voulez-vous appeler la ligne dédiée 112 ?"
-    buttons:
-    - title: Oui
-      payload: /affirm
-    - title: Non
-      payload: /deny
+  - buttons:
+    - payload: /affirm
+      title: Oui
+    - payload: /deny
+      title: Non
+    text: Voulez-vous appeler la ligne dédiée 112 ?
   utter_help:
-  - text: "Je peux vous aider à trouver de l'aide et à prendere les bonnes décisions en situation de crise.
-      \nQue vous est-il arrivé?"
+  - text: |-
+      Je peux vous aider à trouver de l'aide et à prendre les bonnes décisions en situation de crise. 
+      Que vous est-il arrivé ?
   utter_welcome:
   - text: You're welcome!
   utter_default:
@@ -114,20 +157,21 @@ responses:
   utter_ask_use_previous_email:
   - text: Would you like to use the last email address you used, {previous_email}?
   utter_ask_confirm:
-  - text: "Should I open an incident with the following details?
-          \n    email: {email}
-          \n    problem description: {problem_description}
-          \n    title: {incident_title}
-          \n    priority: {priority}"
-    buttons:
-    - title: Yes
-      payload: /affirm
-    - title: No, cancel the incident
-      payload: /deny
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the incident
+    text: |-
+      Should I open an incident with the following details? 
+          email: {email} 
+          problem description: {problem_description} 
+          title: {incident_title} 
+          priority: {priority}
   utter_incident_creation_canceled:
   - text: Alright, I have cancelled the incident.
   utter_ask_whatelse:
-    - text: What else can I help you with?
+  - text: What else can I help you with?
   utter_ask_handoff:
   - text: It looks like you want to be transferred to a human agent.
   utter_handoff:
@@ -136,63 +180,8 @@ responses:
   - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}.
   utter_no_handoff:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
-
-forms:
-  open_incident_form:
-    required_slots:
-      email:
-        - type: from_entity
-          entity: email
-        - type: from_intent
-          intent: affirm
-          value: true
-        - type: from_intent
-          intent: deny
-          value: false
-      priority:
-        - type: from_entity
-          entity: priority
-      problem_description:
-        - type: from_text
-          not_intent:
-            - incident_status
-            - bot_challenge
-            - help
-            - affirm
-            - deny
-      incident_title:
-        - type: from_trigger_intent
-          intent: password_reset
-          value: "Problem resetting password"
-        - type: from_trigger_intent
-          intent: problem_email
-          value: "Problem with email"
-        - type: from_text
-          not_intent:
-            - incident_status
-            - bot_challenge
-            - help
-            - affirm
-            - deny
-      confirm:
-        - type: from_intent
-          intent: affirm
-          value: true
-        - type: from_intent
-          intent: deny
-          value: false
-  incident_status_form:
-    required_slots:
-      email:
-        - type: from_entity
-          entity: email
-        - type: from_intent
-          intent: affirm
-          value: true
-        - type: from_intent
-          intent: deny
-          value: false
-
+  utter_call_help_police:
+  - text: Souhaitez-vous appeler le 17 ?
 actions:
 - action_ask_email
 - action_check_incident_status
@@ -202,3 +191,59 @@ actions:
 - validate_open_incident_form
 - validate_incident_status_form
 - send_sexual_assault_checklist
+forms:
+  open_incident_form:
+    required_slots:
+      confirm:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+      email:
+      - entity: email
+        type: from_entity
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+      incident_title:
+      - intent: password_reset
+        type: from_trigger_intent
+        value: Problem resetting password
+      - intent: problem_email
+        type: from_trigger_intent
+        value: Problem with email
+      - not_intent:
+        - incident_status
+        - bot_challenge
+        - help
+        - affirm
+        - deny
+        type: from_text
+      priority:
+      - entity: priority
+        type: from_entity
+      problem_description:
+      - not_intent:
+        - incident_status
+        - bot_challenge
+        - help
+        - affirm
+        - deny
+        type: from_text
+  incident_status_form:
+    required_slots:
+      email:
+      - entity: email
+        type: from_entity
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+e2e_actions: []
