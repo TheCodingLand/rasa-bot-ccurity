@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  rasa-ui:
+    build: .
+    ports:
+     - 8080:8080
+  rasa-train:
+    image: rasa/rasa:2.8.2-full
+    user: root
+    volumes:
+      - ./:/app
+    command:
+      - train 
+  rasa-run:
+    image: rasa/rasa:2.8.2-full
+    ports:
+      - 5005:5005
+    volumes:
+      - ./:/app
+    command:
+      - run 
+      - --cors 
+      - "*"
