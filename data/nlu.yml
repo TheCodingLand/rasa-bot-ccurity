@@ -393,6 +393,10 @@ nlu:
     - rape
     - someone has forced me to do it
     - aggression sexuelle
+    - violé
+    - violer
+    - râpé
+    - je me suis faite accoster violemment par un homme
 - intent: burglary
   examples: |
     - quelqu’un a cassé ma porte
